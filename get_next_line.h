@@ -18,11 +18,18 @@
 #  define BUFFER_SIZE 1
 # endif
 
+// SIGNALS //
+# define ENDL_NOT_FOUND -1
+
 # include <stdlib.h>
 # include <string.h>
 # include <unistd.h>
 # include <stdio.h>
+# include <stdint.h>
 
 char	*get_next_line(int fd);
+char	*ft_strjoin(char const *s1, char const *s2, size_t size);
+int		ft_strlen_int(const char *s);
+void	*ft_calloc(size_t count, size_t size);
 
 #endif

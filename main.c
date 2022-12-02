@@ -12,8 +12,11 @@
 
 #include "get_next_line.h"
 
+#include<stdio.h>
+#include<fcntl.h>
 int	main(void)
 {
-	get_next_line(1);
+	int fd = open("test.txt", O_RDONLY | O_CREAT);
+	char *hello = get_next_line(fd);
 	return (0);
 }
