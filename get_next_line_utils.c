@@ -6,7 +6,7 @@
 /*   By: anrodri2 <anrodri2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/01 18:31:43 by anrodri2          #+#    #+#             */
-/*   Updated: 2022/12/01 18:31:44 by anrodri2         ###   ########.fr       */
+/*   Updated: 2022/12/02 20:02:15 by anrodri2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,15 +44,15 @@ int	ft_strlen_int(const char *s)
 	return (index);
 }
 
-char	*ft_strjoin(char const *s1, char const *s2, size_t size)
+char	*ft_strjoin(char const *s1, char const *s2, size_t size, size_t start)
 {
 	char	*r_string;
 	int		i;
 	int		j;
 
-	i = 0;
+	i = 0 + start;
 	j = 0;
-	r_string = (char *) malloc (ft_strlen_int(s1) + ft_strlen_int(s2) + 1);
+	r_string = (char *) malloc (ft_strlen_int(s1) + ft_strlen_int(s2) + 1 - start);
 	if (r_string == NULL)
 		return (NULL);
 	while (s1[i] != '\0')

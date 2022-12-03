@@ -6,7 +6,7 @@
 /*   By: anrodri2 <anrodri2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/01 18:28:33 by anrodri2          #+#    #+#             */
-/*   Updated: 2022/12/01 19:30:40 by anrodri2         ###   ########.fr       */
+/*   Updated: 2022/12/02 20:02:48 by anrodri2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@
 # include <stdint.h>
 
 char	*get_next_line(int fd);
-char	*ft_strjoin(char const *s1, char const *s2, size_t size);
+char	*ft_strjoin(char const *s1, char const *s2, size_t size, size_t start);
 int		ft_strlen_int(const char *s);
 void	*ft_calloc(size_t count, size_t size);
 
