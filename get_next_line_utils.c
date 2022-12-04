@@ -44,15 +44,15 @@ int	ft_strlen_int(const char *s)
 	return (index);
 }
 
-char	*ft_strjoin(char const *s1, char const *s2, size_t size, size_t start)
+char	*ft_strjoin(char const *s1, char const *s2, size_t size)
 {
 	char	*r_string;
 	int		i;
 	int		j;
 
-	i = 0 + start;
+	i = 0;
 	j = 0;
-	r_string = (char *) malloc (ft_strlen_int(s1) + ft_strlen_int(s2) + 1 - start);
+	r_string = (char *) malloc (ft_strlen_int(s1) + ft_strlen_int(s2) + 1);
 	if (r_string == NULL)
 		return (NULL);
 	while (s1[i] != '\0')

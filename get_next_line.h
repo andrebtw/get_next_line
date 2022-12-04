@@ -28,7 +28,7 @@
 # include <stdint.h>
 
 char	*get_next_line(int fd);
-char	*ft_strjoin(char const *s1, char const *s2, size_t size, size_t start);
+char	*ft_strjoin(char const *s1, char const *s2, size_t size);
 int		ft_strlen_int(const char *s);
 void	*ft_calloc(size_t count, size_t size);
 
