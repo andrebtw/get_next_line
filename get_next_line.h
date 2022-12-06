@@ -6,7 +6,7 @@
 /*   By: anrodri2 <anrodri2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/01 18:28:33 by anrodri2          #+#    #+#             */
-/*   Updated: 2022/12/02 20:02:48 by anrodri2         ###   ########.fr       */
+/*   Updated: 2022/12/06 05:16:40 by anrodri2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,11 +15,10 @@
 # define GET_NEXT_LINE_H
 
 # ifndef BUFFER_SIZE
-#  define BUFFER_SIZE 1
+#  define BUFFER_SIZE 4
 # endif
 
 // SIGNALS //
-# define ENDL_NOT_FOUND -1
 
 # include <stdlib.h>
 # include <string.h>
@@ -28,8 +27,8 @@
 # include <stdint.h>
 
 char	*get_next_line(int fd);
-char	*ft_strjoin(char const *s1, char const *s2, size_t size);
-int		ft_strlen_int(const char *s);
-void	*ft_calloc(size_t count, size_t size);
+char	*ft_strdup(const char *s);
+char	*ft_strjoin(char *s1, char *s2);
+size_t  ft_strlen_int(char *s, int check_if_endl);
 
 #endif
