@@ -6,7 +6,7 @@
 /*   By: anrodri2 <anrodri2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/01 18:31:43 by anrodri2          #+#    #+#             */
-/*   Updated: 2022/12/07 00:07:35 by anrodri2         ###   ########.fr       */
+/*   Updated: 2022/12/07 19:32:58 by anrodri2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,6 +79,5 @@ char	*ft_strjoin(char *s1, char *s2)
 		r_string[j] = '\n';
 		j++;
 	}
-	r_string[j] = '\0';
-	return (r_string);
+	return (free(s1), r_string[j] = '\0', r_string);
 }
