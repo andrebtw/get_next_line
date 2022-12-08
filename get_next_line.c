@@ -6,19 +6,20 @@
 /*   By: anrodri2 <anrodri2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/01 18:28:03 by anrodri2          #+#    #+#             */
-/*   Updated: 2022/12/07 19:52:27 by anrodri2         ###   ########.fr       */
+/*   Updated: 2022/12/08 06:02:04 by anrodri2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
 
-char	*back_up_string(char *s)
+char	*back_up_string(char *s, char *saved_string)
 {
 	int		i;
 	int		j;
 	char	*r_string;
 
 	i = 0;
+	free(saved_string);
 	while (s[i] && s[i] != '\n')
 		i++;
 	if (s[i])
@@ -38,10 +39,15 @@ char	*back_up_string(char *s)
 	return (r_string);
 }
 
-int	check_if_endf(char *s, int read_value)
+int	check_if_endf(char *s, int read_value, char *temp_str, char *saved_string)
 {
 	if (!read_value && (!s || !s[0]))
+	{
+		free(s);
+		free(temp_str);
+		free(saved_string);
 		return (1);
+	}
 	return (0);	
 }
 
@@ -66,22 +72,23 @@ char	*get_next_line(int fd)
 	read_output = -10;
 	while (!found_n)
 	{
-		temp_string = (char *) ft_calloc(BUFFER_SIZE + 2, sizeof(char));
+		temp_string = (char *) ft_calloc(BUFFER_SIZE + 1, sizeof(char));
 		if (!temp_string)
 			return (NULL);
-		temp_string[BUFFER_SIZE + 1] = '\0';
 		read_output = read(fd, temp_string, BUFFER_SIZE);
 		if (read_output == -1)
 			return (NULL);
 		if (ft_strlen_int(temp_string, 0) != ft_strlen_int(temp_string, 1) || read_output == 0)
 			found_n = 1;
 		stash = ft_strjoin(stash, temp_string);
+		if (!found_n)
+			free(temp_string);
 	}
-	if (check_if_endf(stash, read_output))
+	if (check_if_endf(stash, read_output, temp_string, saved_string))
 		return (NULL);
 	if (read_output != -10)
-		saved_string = back_up_string(temp_string);
+		saved_string = back_up_string(temp_string, saved_string);
 	else
-		saved_string = back_up_string(saved_string);
+		saved_string = back_up_string(saved_string, saved_string);
 	return (stash);
 }
