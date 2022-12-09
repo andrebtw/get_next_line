@@ -6,7 +6,7 @@
 /*   By: anrodri2 <anrodri2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/01 18:31:43 by anrodri2          #+#    #+#             */
-/*   Updated: 2022/12/09 02:38:33 by anrodri2         ###   ########.fr       */
+/*   Updated: 2022/12/09 17:07:37 by anrodri2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,9 +58,12 @@ char	*ft_strjoin(char *s1, char *s2)
 
 	i = 0;
 	j = 0;
-	r_string = (char *) malloc (ft_strlen_int(s1, 0) + ft_strlen_int(s2, 1) + 2);
+	if (ft_strlen_int(s2, 0) == ft_strlen_int(s2, 1))
+		r_string = (char *) malloc (ft_strlen_int(s1, 0) + ft_strlen_int(s2, 1) + 1);
+	else
+		r_string = (char *) malloc (ft_strlen_int(s1, 0) + ft_strlen_int(s2, 1) + 2);
 	if (r_string == NULL)
-		return (NULL);
+		return (free(s1), NULL);
 	while (s1[i] != '\0')
 	{
 		r_string[j] = s1[i];

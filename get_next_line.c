@@ -6,7 +6,7 @@
 /*   By: anrodri2 <anrodri2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/01 18:28:03 by anrodri2          #+#    #+#             */
-/*   Updated: 2022/12/09 03:04:53 by anrodri2         ###   ########.fr       */
+/*   Updated: 2022/12/09 17:13:16 by anrodri2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,10 +55,14 @@ char	*get_next_line(int fd)
 
 	found_n = 0;
 	stash = (char *) ft_calloc(1, sizeof(char));
+	if (!stash)
+		return (NULL);
 	temp_string = (char *) ft_calloc(BUFFER_SIZE + 1, sizeof(char));
+	if (!temp_string)
+		return (free(stash), NULL);
 	if (!saved_string)
 		saved_string = (char *) ft_calloc(1, sizeof(char));
-	if (!stash || !saved_string)
+	if (!saved_string)
 		return (free(stash), free(temp_string), NULL);
 	if (saved_string && saved_string[0])
 	{
@@ -72,17 +76,21 @@ char	*get_next_line(int fd)
 		free(temp_string);
 		temp_string = (char *) ft_calloc(BUFFER_SIZE + 1, sizeof(char));
 		if (!temp_string)
-			return (free(stash), NULL);
+			return (free(stash), free(saved_string), saved_string = NULL, NULL);
 		read_output = read(fd, temp_string, BUFFER_SIZE);
 		if (read_output == -1)
-			return (free(temp_string), free(stash), NULL);
+			return (free(temp_string), free(stash), free(saved_string), saved_string = NULL, NULL);
 		if (ft_strlen_int(temp_string, 0) != ft_strlen_int(temp_string, 1) || read_output == 0)
 			found_n = 1;
 		stash = ft_strjoin(stash, temp_string);
+		if (!stash)
+			return (free(temp_string), free(saved_string), saved_string = NULL, NULL);
 	}
 	if (check_if_endf(stash, read_output))
 	{
 		free(temp_string);
+		free(saved_string);
+		saved_string = NULL;
 		if (stash)
 			free(stash);
 		return (NULL);
@@ -90,11 +98,16 @@ char	*get_next_line(int fd)
 	if (read_output != -10)
 	{
 		free(saved_string);
+		saved_string = NULL;
 		saved_string = back_up_string(temp_string);
+		if (!saved_string)
+			return (free(temp_string), NULL);
 	}
 	else
 	{
 		saved_string = back_up_string(saved_string);
+		if (!saved_string)
+			return (free(temp_string), NULL);
 		free(temp_string);
 	}
 	return (stash);
