@@ -6,7 +6,7 @@
 /*   By: anrodri2 <anrodri2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/01 18:28:03 by anrodri2          #+#    #+#             */
-/*   Updated: 2022/12/11 10:24:04 by anrodri2         ###   ########.fr       */
+/*   Updated: 2022/12/11 11:59:55 by anrodri2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,21 +32,10 @@ char	*back_up_string(char *s, int is_saved_string)
 	}
 	j = 0;
 	while (s[i])
-	{
-		r_string[j] = s[i];
-		j++;
-		i++;
-	}
+		r_string[j++] = s[i++];
 	free(s);
 	r_string[j] = '\0';
 	return (r_string);
-}
-
-int	check_if_endf(char *s, int read_value)
-{
-	if (!read_value && (!s || !s[0]))
-		return (1);
-	return (0);	
 }
 
 char	*get_next_line(int fd)
@@ -60,14 +49,7 @@ char	*get_next_line(int fd)
 	found_n = 0;
 	stash = (char *) ft_calloc(1, sizeof(char));
 	if (!stash)
-	{
-		if (saved_string)
-		{
-			free(saved_string);
-			saved_string = NULL;
-		}
-		return (NULL);
-	}
+		return (free(saved_string), saved_string = NULL, NULL);
 	temp_string = (char *) ft_calloc(BUFFER_SIZE + 1, sizeof(char));
 	if (!temp_string)
 		return (free(stash), free(saved_string), saved_string = NULL, NULL);
@@ -75,15 +57,12 @@ char	*get_next_line(int fd)
 		saved_string = (char *) ft_calloc(1, sizeof(char));
 	if (!saved_string)
 		return (free(stash), free(temp_string), NULL);
-	if (saved_string && saved_string[0])
-	{
-		stash = ft_strjoin(stash, saved_string);
-		if (!stash)
-			return (free(temp_string), free(saved_string), saved_string = NULL, NULL);
-		if (ft_strlen_int(saved_string, 0) != ft_strlen_int(saved_string, 1))
-			found_n = 1;
-	}
-	read_output = -10;
+	stash = ft_strjoin(stash, saved_string);
+	if (!stash)
+		return (free(temp_string), free(saved_string), saved_string = NULL, NULL);
+	if (ft_strlen_int(saved_string, 0) != ft_strlen_int(saved_string, 1))
+		found_n = 1;
+	read_output = NOT_READ;
 	while (!found_n)
 	{
 		free(temp_string);
@@ -99,7 +78,7 @@ char	*get_next_line(int fd)
 		if (!stash)
 			return (free(temp_string), free(saved_string), saved_string = NULL, NULL);
 	}
-	if (check_if_endf(stash, read_output))
+	if (!read_output && (!stash || !stash[0]))
 	{
 		free(temp_string);
 		free(saved_string);
@@ -108,7 +87,7 @@ char	*get_next_line(int fd)
 			free(stash);
 		return (NULL);
 	}
-	if (read_output != -10)
+	if (read_output != NOT_READ)
 	{
 		free(saved_string);
 		saved_string = NULL;

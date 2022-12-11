@@ -6,7 +6,7 @@
 /*   By: anrodri2 <anrodri2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/01 18:28:33 by anrodri2          #+#    #+#             */
-/*   Updated: 2022/12/08 18:51:23 by anrodri2         ###   ########.fr       */
+/*   Updated: 2022/12/11 10:55:49 by anrodri2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,16 +19,16 @@
 # endif
 
 // SIGNALS //
+# define NOT_READ -10
 
 # include <stdlib.h>
 # include <string.h>
 # include <unistd.h>
-# include <stdio.h>
 # include <stdint.h>
 
 char	*get_next_line(int fd);
 void	*ft_calloc(size_t count, size_t size);
 char	*ft_strjoin(char *s1, char *s2);
-size_t  ft_strlen_int(const char *s, int check_if_endl);
+size_t	ft_strlen_int(const char *s, int check_if_endl);
 
 #endif
