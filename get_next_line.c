@@ -6,7 +6,7 @@
 /*   By: anrodri2 <anrodri2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/01 18:28:03 by anrodri2          #+#    #+#             */
-/*   Updated: 2022/12/11 11:59:55 by anrodri2         ###   ########.fr       */
+/*   Updated: 2022/12/12 11:33:34 by anrodri2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ char	*back_up_string(char *s, int is_saved_string)
 		i++;
 	if (s[i])
 		i++;
-	r_string = (char *) malloc (ft_strlen_int(s, 0) - ft_strlen_int(s, 1) + 1);
+	r_string = (char *) malloc (ft_strlen(s, 0) - ft_strlen(s, 1) + 1);
 	if (!r_string)
 	{
 		if (is_saved_string)
@@ -38,46 +38,9 @@ char	*back_up_string(char *s, int is_saved_string)
 	return (r_string);
 }
 
-char	*get_next_line(int fd)
+char	*save_static(char *temp_string, char *stash,
+		char *saved_string, int read_output)
 {
-	char		*temp_string;
-	static char	*saved_string;
-	char		*stash;
-	int			read_output;
-	int			found_n;
-
-	found_n = 0;
-	stash = (char *) ft_calloc(1, sizeof(char));
-	if (!stash)
-		return (free(saved_string), saved_string = NULL, NULL);
-	temp_string = (char *) ft_calloc(BUFFER_SIZE + 1, sizeof(char));
-	if (!temp_string)
-		return (free(stash), free(saved_string), saved_string = NULL, NULL);
-	if (!saved_string)
-		saved_string = (char *) ft_calloc(1, sizeof(char));
-	if (!saved_string)
-		return (free(stash), free(temp_string), NULL);
-	stash = ft_strjoin(stash, saved_string);
-	if (!stash)
-		return (free(temp_string), free(saved_string), saved_string = NULL, NULL);
-	if (ft_strlen_int(saved_string, 0) != ft_strlen_int(saved_string, 1))
-		found_n = 1;
-	read_output = NOT_READ;
-	while (!found_n)
-	{
-		free(temp_string);
-		temp_string = (char *) ft_calloc(BUFFER_SIZE + 1, sizeof(char));
-		if (!temp_string)
-			return (free(stash), free(saved_string), saved_string = NULL, NULL);
-		read_output = read(fd, temp_string, BUFFER_SIZE);
-		if (read_output == -1)
-			return (free(temp_string), free(stash), free(saved_string), saved_string = NULL, NULL);
-		if (ft_strlen_int(temp_string, 0) != ft_strlen_int(temp_string, 1) || read_output == 0)
-			found_n = 1;
-		stash = ft_strjoin(stash, temp_string);
-		if (!stash)
-			return (free(temp_string), free(saved_string), saved_string = NULL, NULL);
-	}
 	if (!read_output && (!stash || !stash[0]))
 	{
 		free(temp_string);
@@ -93,14 +56,61 @@ char	*get_next_line(int fd)
 		saved_string = NULL;
 		saved_string = back_up_string(temp_string, 0);
 		if (!saved_string)
-			return (free(temp_string), free(stash), free(saved_string), saved_string = NULL, NULL);
+			return (free(temp_string), free(stash), free(saved_string), NULL);
 	}
 	else
 	{
 		saved_string = back_up_string(saved_string, 1);
 		if (!saved_string)
-			return (free(temp_string), free(stash), free(saved_string), saved_string = NULL, NULL);
+			return (free(temp_string), free(stash), free(saved_string), NULL);
 		free(temp_string);
 	}
-	return (stash);
+	return (saved_string);
+}
+
+char	*main_loop(char *savd_s, char *temp_s, char *r_s)
+{
+	
+}
+
+char	*get_next_line(int fd)
+{
+	char		*temp_s;
+	static char	*savd_s;
+	char		*r_s;
+	int			read_output;
+	int			found_n;
+
+	found_n = 0;
+	r_s = (char *) ft_calloc(1, sizeof(char));
+	temp_s = (char *) ft_calloc(BUFFER_SIZE + 1, sizeof(char));
+	if (!savd_s)
+		savd_s = (char *) ft_calloc(1, sizeof(char));
+	if ((!savd_s || !temp_s) || !r_s)
+		return (savd_s = failed_malloc(savd_s, r_s, temp_s), NULL);
+	r_s = ft_strjoin(r_s, savd_s);
+	if (!r_s)
+		return (free(temp_s), free(savd_s), savd_s = NULL, NULL);
+	if (ft_strlen(savd_s, 0) != ft_strlen(savd_s, 1))
+		found_n = 1;
+	read_output = NOT_READ;
+	while (!found_n)
+	{
+		free(temp_s);
+		temp_s = (char *) ft_calloc(BUFFER_SIZE + 1, sizeof(char));
+		if (!temp_s)
+			return (free(r_s), free(savd_s), savd_s = NULL, NULL);
+		read_output = read(fd, temp_s, BUFFER_SIZE);
+		if (read_output == -1)
+			return (free(temp_s), free(r_s), free(savd_s), savd_s = NULL, NULL);
+		if (ft_strlen(temp_s, 0) != ft_strlen(temp_s, 1) || read_output == 0)
+			found_n = 1;
+		r_s = ft_strjoin(r_s, temp_s);
+		if (!r_s)
+			return (free(temp_s), free(savd_s), savd_s = NULL, NULL);
+	}
+	savd_s = save_static(temp_s, r_s, savd_s, read_output);
+	if (!savd_s)
+		return (savd_s = NULL, NULL);
+	return (r_s);
 }

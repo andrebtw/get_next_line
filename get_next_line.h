@@ -6,7 +6,7 @@
 /*   By: anrodri2 <anrodri2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/01 18:28:33 by anrodri2          #+#    #+#             */
-/*   Updated: 2022/12/11 10:55:49 by anrodri2         ###   ########.fr       */
+/*   Updated: 2022/12/12 09:23:27 by anrodri2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,7 @@
 char	*get_next_line(int fd);
 void	*ft_calloc(size_t count, size_t size);
 char	*ft_strjoin(char *s1, char *s2);
-size_t	ft_strlen_int(const char *s, int check_if_endl);
+size_t	ft_strlen(const char *s, int check_if_endl);
+char	*failed_malloc(char *temp_string, char *saved_string, char *r_string);
 
 #endif

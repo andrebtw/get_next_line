@@ -6,11 +6,37 @@
 /*   By: anrodri2 <anrodri2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/01 18:31:43 by anrodri2          #+#    #+#             */
-/*   Updated: 2022/12/11 10:56:25 by anrodri2         ###   ########.fr       */
+/*   Updated: 2022/12/12 09:23:16 by anrodri2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
+
+char	*failed_malloc(char *temp_string, char *saved_string, char *r_string)
+{
+	if (!temp_string)
+	{
+		if (saved_string)
+			free(saved_string);
+		if (r_string)
+			free(r_string);
+	}
+	if (!saved_string)
+	{
+		if (temp_string)
+			free(temp_string);
+		if (r_string)
+			free(r_string);
+	}
+	if (!r_string)
+	{
+		if (temp_string)
+			free(temp_string);
+		if (saved_string)
+			free(saved_string);
+	}
+	return (NULL);
+}
 
 void	*ft_calloc(size_t count, size_t size)
 {
@@ -34,7 +60,7 @@ void	*ft_calloc(size_t count, size_t size)
 	return ((void *)array);
 }
 
-size_t	ft_strlen_int(const char *s, int check_if_endl)
+size_t	ft_strlen(const char *s, int check_if_endl)
 {
 	size_t	i;
 
@@ -58,12 +84,12 @@ char	*ft_strjoin(char *s1, char *s2)
 
 	i = 0;
 	j = 0;
-	if (ft_strlen_int(s2, 0) == ft_strlen_int(s2, 1))
+	if (ft_strlen(s2, 0) == ft_strlen(s2, 1))
 		r_string = (char *) malloc (
-				ft_strlen_int(s1, 0) + ft_strlen_int(s2, 1) + 1);
+				ft_strlen(s1, 0) + ft_strlen(s2, 1) + 1);
 	else
 		r_string = (char *) malloc (
-				ft_strlen_int(s1, 0) + ft_strlen_int(s2, 1) + 2);
+				ft_strlen(s1, 0) + ft_strlen(s2, 1) + 2);
 	if (r_string == NULL)
 		return (free(s1), NULL);
 	while (s1[i] != '\0')
