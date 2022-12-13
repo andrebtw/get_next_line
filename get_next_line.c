@@ -6,7 +6,7 @@
 /*   By: anrodri2 <anrodri2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/01 18:28:03 by anrodri2          #+#    #+#             */
-/*   Updated: 2022/12/12 11:33:34 by anrodri2         ###   ########.fr       */
+/*   Updated: 2022/12/13 02:30:28 by anrodri2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,8 +46,6 @@ char	*save_static(char *temp_string, char *stash,
 		free(temp_string);
 		free(saved_string);
 		saved_string = NULL;
-		if (stash)
-			free(stash);
 		return (NULL);
 	}
 	if (read_output != NOT_READ)
@@ -68,26 +66,17 @@ char	*save_static(char *temp_string, char *stash,
 	return (saved_string);
 }
 
-char	*main_loop(char *savd_s, char *temp_s, char *r_s)
+char	*main_func(int fd, char *r_s, char *temp_s, int free_static)
 {
-	
-}
+	int		found_n;
+	int		read_output;
+	static char *savd_s;
 
-char	*get_next_line(int fd)
-{
-	char		*temp_s;
-	static char	*savd_s;
-	char		*r_s;
-	int			read_output;
-	int			found_n;
-
-	found_n = 0;
-	r_s = (char *) ft_calloc(1, sizeof(char));
-	temp_s = (char *) ft_calloc(BUFFER_SIZE + 1, sizeof(char));
 	if (!savd_s)
 		savd_s = (char *) ft_calloc(1, sizeof(char));
-	if ((!savd_s || !temp_s) || !r_s)
-		return (savd_s = failed_malloc(savd_s, r_s, temp_s), NULL);
+	if (!savd_s || free_static)
+		return (free(savd_s), savd_s = NULL, NULL);
+	found_n = 0;
 	r_s = ft_strjoin(r_s, savd_s);
 	if (!r_s)
 		return (free(temp_s), free(savd_s), savd_s = NULL, NULL);
@@ -110,7 +99,23 @@ char	*get_next_line(int fd)
 			return (free(temp_s), free(savd_s), savd_s = NULL, NULL);
 	}
 	savd_s = save_static(temp_s, r_s, savd_s, read_output);
-	if (!savd_s)
-		return (savd_s = NULL, NULL);
+	return (r_s);
+}
+
+char	*get_next_line(int fd)
+{
+	char		*temp_s;
+	char		*r_s;
+
+	r_s = (char *) ft_calloc(1, sizeof(char));
+	temp_s = (char *) ft_calloc(BUFFER_SIZE + 1, sizeof(char));
+	if ((!r_s || !temp_s))
+		return (r_s = failed_malloc(NULL, r_s, temp_s),
+			temp_s = main_func(0, NULL, NULL, 1), NULL);
+	r_s = main_func(fd, r_s, temp_s, 0);
+	if (!r_s)
+		return (r_s = main_func(0, NULL, NULL, 1), NULL);
+	if (r_s && !r_s[0])
+		return (free(r_s), NULL);
 	return (r_s);
 }
