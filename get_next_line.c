@@ -41,7 +41,7 @@ char	*back_up_string(char *s, int is_saved_string)
 char	*save_static(char *temp_string, char *stash,
 		char *saved_string, int read_output)
 {
-	if (!read_output && (!stash || !stash[0]))
+	if (!read_output && (!stash[0]))
 	{
 		free(temp_string);
 		free(saved_string);
@@ -54,13 +54,13 @@ char	*save_static(char *temp_string, char *stash,
 		saved_string = NULL;
 		saved_string = back_up_string(temp_string, 0);
 		if (!saved_string)
-			return (free(temp_string), free(stash), free(saved_string), NULL);
+			return (free(temp_string), free(saved_string), NULL);
 	}
 	else
 	{
 		saved_string = back_up_string(saved_string, 1);
 		if (!saved_string)
-			return (free(temp_string), free(stash), free(saved_string), NULL);
+			return (free(temp_string), free(saved_string), NULL);
 		free(temp_string);
 	}
 	return (saved_string);
@@ -79,7 +79,7 @@ char	*main_func(int fd, char *r_s, char *temp_s, int read_output)
 {
 	static char	*savd_s;
 
-	savd_s = static_init(fd, savd_s);
+	savd_s = static_init(fd, savd_s, r_s, temp_s);
 	if (!savd_s)
 		return (NULL);
 	r_s = ft_strjoin(r_s, savd_s);
@@ -117,7 +117,7 @@ char	*get_next_line(int fd)
 	r_s = main_func(fd, r_s, temp_s, NOT_READ);
 	if (!r_s)
 		return (main_func(-1, NULL, NULL, NOT_READ), NULL);
-	if (r_s && !r_s[0])
+	if (r_s && r_s[0] == '\0')
 		return (free(r_s), NULL);
 	return (r_s);
 }

@@ -31,6 +31,6 @@ void	*ft_calloc(size_t count, size_t size);
 char	*ft_strjoin(char *s1, char *s2);
 size_t	ft_strlen(const char *s, int check_if_endl);
 void	failed_malloc(char *temp_string, char *r_string);
-char	*static_init(int free_static, char *savd_s);
+char	*static_init(int free_static, char *savd_s, char *r_s, char *temp_s);
 
 #endif

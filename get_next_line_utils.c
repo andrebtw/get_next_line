@@ -86,13 +86,19 @@ char	*ft_strjoin(char *s1, char *s2)
 	return (free(s1), r_string[j] = '\0', r_string);
 }
 
-char	*static_init(int free_static, char *savd_s)
+char	*static_init(int free_static, char *savd_s, char *r_s, char *temp_s)
 {
 	if (free_static == -1)
+	{
+		if (r_s)
+			free(r_s);
+		if (temp_s)
+			free(temp_s);
 		return (free(savd_s), NULL);
+	}
 	if (!savd_s)
 		savd_s = (char *) ft_calloc(1, sizeof(char));
 	if (!savd_s)
-		return (NULL);
+		return (free(temp_s), free(r_s), savd_s = NULL);
 	return (savd_s);
 }
