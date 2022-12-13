@@ -6,36 +6,20 @@
 /*   By: anrodri2 <anrodri2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/01 18:31:43 by anrodri2          #+#    #+#             */
-/*   Updated: 2022/12/13 02:38:15 by anrodri2         ###   ########.fr       */
+/*   Updated: 2022/12/13 02:58:12 by anrodri2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
 
-char	*failed_malloc(char *temp_string, char *saved_string, char *r_string)
+void	failed_malloc(char *temp_string, char *r_string)
 {
 	if (!temp_string)
-	{
-		if (saved_string)
-			free(saved_string);
 		if (r_string)
 			free(r_string);
-	}
-	if (!saved_string)
-	{
-		if (temp_string)
-			free(temp_string);
-		if (r_string)
-			free(r_string);
-	}
 	if (!r_string)
-	{
 		if (temp_string)
 			free(temp_string);
-		if (saved_string)
-			free(saved_string);
-	}
-	return (NULL);
 }
 
 void	*ft_calloc(size_t count, size_t size)

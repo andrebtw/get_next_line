@@ -6,7 +6,7 @@
 /*   By: anrodri2 <anrodri2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/01 18:28:03 by anrodri2          #+#    #+#             */
-/*   Updated: 2022/12/13 02:30:28 by anrodri2         ###   ########.fr       */
+/*   Updated: 2022/12/13 03:05:28 by anrodri2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,24 +66,32 @@ char	*save_static(char *temp_string, char *stash,
 	return (saved_string);
 }
 
+char	*static_init(int free_static, char *savd_s)
+{
+	if (free_static == 2)
+		return (free(savd_s), NULL);
+	if (!savd_s)
+		savd_s = (char *) ft_calloc(1, sizeof(char));
+	if (!savd_s)
+		return (NULL);
+	return (savd_s);
+}
+
 char	*main_func(int fd, char *r_s, char *temp_s, int free_static)
 {
-	int		found_n;
 	int		read_output;
 	static char *savd_s;
 
+	savd_s = static_init(free_static, savd_s);
 	if (!savd_s)
-		savd_s = (char *) ft_calloc(1, sizeof(char));
-	if (!savd_s || free_static)
-		return (free(savd_s), savd_s = NULL, NULL);
-	found_n = 0;
+		return (NULL);
 	r_s = ft_strjoin(r_s, savd_s);
 	if (!r_s)
 		return (free(temp_s), free(savd_s), savd_s = NULL, NULL);
 	if (ft_strlen(savd_s, 0) != ft_strlen(savd_s, 1))
-		found_n = 1;
+		free_static = 1;
 	read_output = NOT_READ;
-	while (!found_n)
+	while (!free_static)
 	{
 		free(temp_s);
 		temp_s = (char *) ft_calloc(BUFFER_SIZE + 1, sizeof(char));
@@ -93,7 +101,7 @@ char	*main_func(int fd, char *r_s, char *temp_s, int free_static)
 		if (read_output == -1)
 			return (free(temp_s), free(r_s), free(savd_s), savd_s = NULL, NULL);
 		if (ft_strlen(temp_s, 0) != ft_strlen(temp_s, 1) || read_output == 0)
-			found_n = 1;
+			free_static = 1;
 		r_s = ft_strjoin(r_s, temp_s);
 		if (!r_s)
 			return (free(temp_s), free(savd_s), savd_s = NULL, NULL);
@@ -110,11 +118,11 @@ char	*get_next_line(int fd)
 	r_s = (char *) ft_calloc(1, sizeof(char));
 	temp_s = (char *) ft_calloc(BUFFER_SIZE + 1, sizeof(char));
 	if ((!r_s || !temp_s))
-		return (r_s = failed_malloc(NULL, r_s, temp_s),
-			temp_s = main_func(0, NULL, NULL, 1), NULL);
+		return (failed_malloc(r_s, temp_s),
+			main_func(0, NULL, NULL, 2), NULL);
 	r_s = main_func(fd, r_s, temp_s, 0);
 	if (!r_s)
-		return (r_s = main_func(0, NULL, NULL, 1), NULL);
+		return (main_func(0, NULL, NULL, 2), NULL);
 	if (r_s && !r_s[0])
 		return (free(r_s), NULL);
 	return (r_s);
