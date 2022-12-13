@@ -6,7 +6,7 @@
 /*   By: anrodri2 <anrodri2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/01 18:28:03 by anrodri2          #+#    #+#             */
-/*   Updated: 2022/12/13 03:41:35 by anrodri2         ###   ########.fr       */
+/*   Updated: 2022/12/13 08:42:18 by anrodri2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,20 +66,18 @@ char	*save_static(char *temp_string, char *stash,
 	return (saved_string);
 }
 
-char	*static_init(int free_static, char *savd_s)
+char	*temp_string(char *temp_s)
 {
-	if (free_static == -1)
-		return (free(savd_s), NULL);
-	if (!savd_s)
-		savd_s = (char *) ft_calloc(1, sizeof(char));
-	if (!savd_s)
+	free(temp_s);
+	temp_s = (char *) ft_calloc(BUFFER_SIZE + 1, sizeof(char));
+	if (!temp_s)
 		return (NULL);
-	return (savd_s);
+	return (temp_s);
 }
 
 char	*main_func(int fd, char *r_s, char *temp_s, int read_output)
 {
-	static char *savd_s;
+	static char	*savd_s;
 
 	savd_s = static_init(fd, savd_s);
 	if (!savd_s)
@@ -91,8 +89,7 @@ char	*main_func(int fd, char *r_s, char *temp_s, int read_output)
 		fd = -2;
 	while (fd != -2)
 	{
-		free(temp_s);
-		temp_s = (char *) ft_calloc(BUFFER_SIZE + 1, sizeof(char));
+		temp_s = temp_string(temp_s);
 		if (!temp_s)
 			return (free(r_s), free(savd_s), savd_s = NULL, NULL);
 		read_output = read(fd, temp_s, BUFFER_SIZE);
@@ -104,8 +101,7 @@ char	*main_func(int fd, char *r_s, char *temp_s, int read_output)
 		if (!r_s)
 			return (free(temp_s), free(savd_s), savd_s = NULL, NULL);
 	}
-	savd_s = save_static(temp_s, r_s, savd_s, read_output);
-	return (r_s);
+	return (savd_s = save_static(temp_s, r_s, savd_s, read_output), r_s);
 }
 
 char	*get_next_line(int fd)

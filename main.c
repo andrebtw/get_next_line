@@ -6,7 +6,7 @@
 /*   By: anrodri2 <anrodri2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/01 19:28:44 by anrodri2          #+#    #+#             */
-/*   Updated: 2022/12/13 03:45:36 by anrodri2         ###   ########.fr       */
+/*   Updated: 2022/12/13 08:31:47 by anrodri2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ int	main(void)
 	fd = open("test.txt", O_RDONLY);
 	while (string != NULL)
 	{
-		string = get_next_line(84);
+		string = get_next_line(fd);
 		printf("%s", string);
 		free(string);
 	}

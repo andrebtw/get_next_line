@@ -6,7 +6,7 @@
 /*   By: anrodri2 <anrodri2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/01 18:31:43 by anrodri2          #+#    #+#             */
-/*   Updated: 2022/12/13 03:40:25 by anrodri2         ###   ########.fr       */
+/*   Updated: 2022/12/13 08:42:08 by anrodri2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,4 +84,15 @@ char	*ft_strjoin(char *s1, char *s2)
 	if (s2[i] == '\n')
 		r_string[j++] = '\n';
 	return (free(s1), r_string[j] = '\0', r_string);
+}
+
+char	*static_init(int free_static, char *savd_s)
+{
+	if (free_static == -1)
+		return (free(savd_s), NULL);
+	if (!savd_s)
+		savd_s = (char *) ft_calloc(1, sizeof(char));
+	if (!savd_s)
+		return (NULL);
+	return (savd_s);
 }
