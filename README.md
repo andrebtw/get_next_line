@@ -12,4 +12,4 @@ each time the function was called, it would return the next line in a file, if t
 <p>The function :<br>
 <code>char *line = get_next_line(fd); // fd is the file descriptor (int)</code>
 </p>
-#Final grade : 101/100
+# Final grade : 101/100
