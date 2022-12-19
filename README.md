@@ -5,11 +5,11 @@
 each time the function was called, it would return the next line in a file, if the file ended, it returns a NULL pointer.</p>
 
 <h2>Using the function</h2>
-<p>You need to compile the C files like your C files in your project : </p>
+<p>You need to compile the C files like your C files in your project :
 <code>gcc *.c</code>
-<p>Inside your C program just import the function like this :</p>
+<p>Inside your C program just import the function like this :
 <code>#include "get_next_line.h"</code>
-<p>The function :</p>
+<p>The function :
 <code>char *line = get_next_line(fd); // fd is the file descriptor (int)</code>
-
+</p>
 <h1>Final grade : 101/100</h1>
